@@ -15,7 +15,10 @@ import { isAuthenticated } from './middlewares/isAuthenticated';
 //Category
 import { CreateCategoryController } from './controllers/category/CreateCategoryController';
 import { ListCategoryController } from './controllers/category/ListCategoryController';
+
+//Products
 import { CreateProductController } from './controllers/product/CreateProdutController';
+import { ListByCategoryController } from './controllers/product/ListByCategoryController';
 
 //Upload image Multer
 import uploadConfig from './config/multer';
@@ -38,5 +41,8 @@ router.get('/category', isAuthenticated, new ListCategoryController().handle);
 
 // -- Rotas Products --
 router.post('/product', isAuthenticated, upload.single('file'), new CreateProductController().handle);
+
+router.get('/category/product', isAuthenticated, new ListByCategoryController().handle);
+
 
 export { router };
