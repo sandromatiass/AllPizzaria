@@ -1,0 +1,45 @@
+*{
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+:root{
+  --white: #FFFFFF;
+  --black: #000000;
+
+  --background: #FAF6E8;
+  
+  --grey-9E: #9E9E9E;
+  --red-BE: #BE1010; 
+}
+
+button{
+  cursor: pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration: none;
+}
+
+body{
+  background-color: var(--background);
+}
+
+body, input, textarea, select, button{
+  font: 400 1rem sans-serif;
+}
+
+@media (max-width: 720px){
+  html{
+    font-size: 87.5%;
+  }
+}
+
+@media (max-width: 1080px){
+  html{
+    font-size: 93.75%;
+  }
+}
