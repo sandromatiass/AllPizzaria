@@ -20,8 +20,19 @@ import { ListCategoryController } from './controllers/category/ListCategoryContr
 import { CreateProductController } from './controllers/product/CreateProdutController';
 import { ListByCategoryController } from './controllers/product/ListByCategoryController';
 
+//Order
+import { CreateOrderController } from './controllers/order/CreateOrderController';
+import { RemoveOrderController } from './controllers/order/RemoveOrderController';
+import { AddItemController } from './controllers/order/AddItemController';
+import { RemoveItemController } from './controllers/order/RemoveItemController';
+import { SendOrderController } from './controllers/order/SendOrderController';
+import { ListOrderController } from './controllers/order/ListOrderController';
+import { DetailOrderController } from './controllers/order/DetailOrderController';
+import { FinishOrderController } from './controllers/order/FinishOrderController';
+
 //Upload image Multer
 import uploadConfig from './config/multer';
+
 
 const router = Router();
 
@@ -44,5 +55,18 @@ router.post('/product', isAuthenticated, upload.single('file'), new CreateProduc
 
 router.get('/category/product', isAuthenticated, new ListByCategoryController().handle);
 
+// -- Rotas Order --
+router.post('/order', isAuthenticated, new CreateOrderController().handle);
+router.delete('/order', isAuthenticated, new RemoveOrderController().handle);
+
+router.post('/order/add', isAuthenticated, new AddItemController().handle);
+router.delete('/order/remove', isAuthenticated, new RemoveItemController().handle);
+
+router.put('/order/send', isAuthenticated, new SendOrderController().handle);
+
+router.get('/orders', isAuthenticated, new ListOrderController().handle);
+router.get('/orders/detail', isAuthenticated, new DetailOrderController().handle);
+
+router.put('/order/finish', isAuthenticated, new FinishOrderController().handle);
 
 export { router };
