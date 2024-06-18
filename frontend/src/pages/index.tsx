@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { useContext, FormEvent, useState } from 'react';
+import { useContext } from 'react';
 
 import styles from '../styles/home.module.scss';
 
@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/Button';
 import { AuthContext } from '@/contexts/AuthContext';
 
 import { loginSchema } from '@/schemas/validationSchema';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 
 
 export default function Home() {
@@ -42,26 +42,22 @@ export default function Home() {
           }}
         >
           {({ isSubmitting}) =>(
-            <Form>
-            <div>
-              <Field
+            <Form className={styles.teste}>
+            <div >
+              <Input
                 placeholder='Digite seu email'
                 name='email'
                 type='email'
-                autoComplete='email'
-                as={Input} 
+                autoComplete='on'
               />
-              <ErrorMessage name='email' component='div' className={styles.errorMessage}/>
             </div>
             <div>
-              <Field
+              <Input
                 placeholder='Digite sua senha'
                 type='password'
                 name='password'
-                autoComplete="off"
-                as={Input} 
+                autoComplete='off'
               />
-              <ErrorMessage name='password' component='div' className={styles.errorMessage}/>
             </div>
             <Button
               type="submit"
@@ -80,4 +76,4 @@ export default function Home() {
     </div>
     </>
   );
-}
+};

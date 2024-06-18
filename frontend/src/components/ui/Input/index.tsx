@@ -1,18 +1,28 @@
-import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react';
+import { Field, useField } from 'formik';
 import styles from './styles.module.scss';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement>{};
+interface InputProps extends InputHTMLAttributes<HTMLInputElement>{
+  name: string;
+  type?: string;
+  placeholder?: string;
+}
 
-interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement>{};
+export const Input = ({ name, type = 'text', placeholder, ...props }: InputProps) => {
+  const [field, meta] = useField(name);
 
-export function Input({...rest}: InputProps){
-  return(
-    <input className={styles.input} {...rest}/>
-  );
-};
-
-export function TextArea({...rest}: TextAreaProps){
-  return(
-    <textarea className={styles.input} {...rest}></textarea>
+  return (
+    <div>
+      <Field
+        {...field}
+        {...props}
+        type={type}
+        placeholder={placeholder}
+        className={`${styles.input} ${meta.touched && meta.error ? styles.error : ''}`}
+      />
+      {meta.touched && meta.error ? (
+        <div className={styles.errorMessage}>{meta.error}</div>
+      ) : null}
+    </div>
   );
 };
