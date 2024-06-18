@@ -17,9 +17,9 @@ export function Button({ loading, children, ...rest }: ButtonProps){
       { loading ? (
         <FaSpinner color='#ffffff' size={16}/>
       ): (
-        <a className={styles.buttonText}>
+        <span className={styles.buttonText}>
           {children}
-        </a>
+        </span>
       )}
     </button>
   )

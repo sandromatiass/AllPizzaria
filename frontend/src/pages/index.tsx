@@ -14,25 +14,16 @@ import { Button } from '@/components/ui/Button';
 
 import { AuthContext } from '@/contexts/AuthContext';
 
+import { loginSchema } from '@/schemas/validationSchema';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+
 
 export default function Home() {
   const { signIn } = useContext(AuthContext);
 
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassword ] = useState('');
-
-  const [ loading, setLoading ] = useState(false);
-
-  async function handleLogin(event: FormEvent){
-    event.preventDefault();
-
-    let data = {
-      email,
-      password
-    }
-
-    await signIn(data)
-  };
+  async function handleLogin(values: {email: string; password: string}){
+    await signIn(values);
+  }
 
   return (
     <>
@@ -42,28 +33,46 @@ export default function Home() {
     <div className={styles.containerCenter}>
       <Image src={imageLogo} alt="Logo AllPizzaria" priority/>
         <div className={styles.login}>
-        <form onSubmit={handleLogin}>
-          <Input 
-            placeholder='Digite seu email'
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete='email'
-          />
-          <Input 
-            placeholder='Digite sua senha'
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="off"
-          />
-          <Button
-            type="submit"
-            loading={false}
-          >
-            Acessar
-          </Button>
-        </form>
+        <Formik
+          initialValues={{email: '', password: ''}}
+          validationSchema={loginSchema}
+          onSubmit={(values, {setSubmitting}) => {
+            handleLogin(values);
+            setSubmitting(false);
+          }}
+        >
+          {({ isSubmitting}) =>(
+            <Form>
+            <div>
+              <Field
+                placeholder='Digite seu email'
+                name='email'
+                type='email'
+                autoComplete='email'
+                as={Input} 
+              />
+              <ErrorMessage name='email' component='div' className={styles.errorMessage}/>
+            </div>
+            <div>
+              <Field
+                placeholder='Digite sua senha'
+                type='password'
+                name='password'
+                autoComplete="off"
+                as={Input} 
+              />
+              <ErrorMessage name='password' component='div' className={styles.errorMessage}/>
+            </div>
+            <Button
+              type="submit"
+              loading={isSubmitting}
+            >
+              Acessar
+            </Button>
+          </Form>
+          )}
+          
+        </Formik>
         <Link href="/signup" className={styles.text}>
           Não possui uma conta? Cadastre-se
         </Link>    
