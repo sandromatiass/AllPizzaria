@@ -5,10 +5,35 @@
   border: 1px solid var(--grey-9E);
   color: var(--grey-9E);
   height: 40px;
-  margin-bottom: 1rem;
-  padding: 1rem;
+  font-weight: 400;
+  font-size: 16.5px;
+  text-align: center;
+
 }
 
 .input::placeholder{
   color: var(--grey-9E);
 }
+
+.input:focus{
+  &::placeholder{
+    color: transparent;
+  }
+}
+
+.error{
+  border-color: var(--red-EE);
+}
+
+.errorMessage{
+  color: var(--red-EE);
+  font-size: 12px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.5rem;
+}
+
+
+   

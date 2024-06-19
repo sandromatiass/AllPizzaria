@@ -30,18 +30,17 @@ export default function Home() {
     <Head>
       <title>AllPizzaria - Login</title>
     </Head>
-    <div className={styles.containerCenter}>
+    <div className={styles.containerHomeCenter}>
       <Image src={imageLogo} alt="Logo AllPizzaria" priority/>
         <div className={styles.login}>
         <Formik
           initialValues={{email: '', password: ''}}
           validationSchema={loginSchema}
           onSubmit={(values, {setSubmitting}) => {
-            handleLogin(values);
-            setSubmitting(false);
-          }}
-        >
-          {({ isSubmitting}) =>(
+            handleLogin(values)
+            setSubmitting(true);
+          }}>
+          {({ isSubmitting }) =>(
             <Form className={styles.teste}>
             <div >
               <Input
@@ -69,9 +68,12 @@ export default function Home() {
           )}
           
         </Formik>
-        <Link href="/signup" className={styles.text}>
-          Não possui uma conta? Cadastre-se
-        </Link>    
+        <div className={styles.textLogin}>
+          <p>Não esta cadastrado?</p>
+          <Link href="/signup">
+            <span>Cadastre-se</span>
+          </Link>  
+        </div>  
       </div>
     </div>
     </>

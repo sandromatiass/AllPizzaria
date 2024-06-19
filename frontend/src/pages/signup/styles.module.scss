@@ -1,4 +1,4 @@
-.containerHomeCenter{
+.containerSignUp{
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -11,7 +11,7 @@
   }
 }
 
-.login{
+.SignUp{
   margin-top: 2rem;
   width: 600px;
   display: flex;
@@ -20,6 +20,10 @@
   flex-direction: column;
   padding: 2rem 1.5rem;
 
+  h1{
+    color: var(--red-EE);
+    padding-bottom: 1rem;
+  }
   //apenas tamanho form
   form{
     width: 85%;
@@ -38,7 +42,7 @@
   }
 }
 
-.textLogin {
+.textSignUp {
   margin-top: 1rem;
   color: var(--black);
   cursor: pointer;
@@ -57,7 +61,7 @@
 }
 
 @media (max-width: 620px) {
-  .login{
+  .SignUp{
     width: 90%;
   }
 }
