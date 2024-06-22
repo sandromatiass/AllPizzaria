@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 
 import { api } from '@/services/apiClient';
 
+import { toast } from 'react-toastify';
+
 type AuthContextData = {
   user: UserProps | undefined;
   isAuthenticated: boolean;
@@ -60,6 +62,7 @@ export function AuthProvider({ children}: AuthProviderProps){
         password
       });
 
+      ///falha de seguraça depois retirar
       console.log(response.data);
 
       const { id, name, token } = response.data;
@@ -77,10 +80,13 @@ export function AuthProvider({ children}: AuthProviderProps){
       //passando o token para todas as requisições;
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
+      toast.success('Logado com sucesso!')
+
       router.push('/dashboard')
 
     }catch(err){
-      console.log('erro ao acessaar', err)
+      toast.error('Erro ao acessar!')
+      console.log('erro ao acessar', err)
     };
   };
 
@@ -94,11 +100,12 @@ export function AuthProvider({ children}: AuthProviderProps){
         password
       });
 
-      console.log("cadastrado com sucesso!");
+      toast.success('Cadastro Realizado!')
 
       router.push('/');
 
     }catch(err){
+      toast.success('Erro ao cadastrar!')
       console.log("erro ao cadastrar", err);
     };
   };
