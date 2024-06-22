@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { destroyCookie, setCookie, parseCookies } from 'nookies';
 
@@ -55,6 +55,26 @@ export function AuthProvider({ children}: AuthProviderProps){
   const isAuthenticated = !!user;
   const router = useRouter();
 
+  useEffect(() => {
+
+    const { '@nextauth.token': token } = parseCookies();
+
+    if(token){
+      api.get('/me').then(response => {
+        const { id, name, email } = response.data;
+
+        setUser({
+          id,
+          name,
+          email
+        });
+      })
+      .catch(() => {
+        signOut();
+      });
+    };
+  });
+
   async function signIn({email, password}: SignInProps){
     try{
       const response = await api.post('/session', {
@@ -63,7 +83,7 @@ export function AuthProvider({ children}: AuthProviderProps){
       });
 
       ///falha de seguraça depois retirar
-      console.log(response.data);
+      //console.log(response.data);
 
       const { id, name, token } = response.data;
 
