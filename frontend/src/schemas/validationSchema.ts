@@ -26,4 +26,12 @@ export const signUpSchema = Yup.object().shape({
   password: Yup.string()
   .required('Senha é obrigatória!')
   .min(8, 'Senha deve ter pelo menos 6 caracteres!'),
+});
+
+export const categorySchema = Yup.object().shape({
+  name: Yup.string()
+  .required('O campo não pode ficar em branco.')
+  .min(3, 'A categoria deve ter mais caracteres.')
+  .max(50, 'A categoria deve ter menos caracteres.')
+  .matches(/^[a-zA-Z\s]+$/, 'O nome deve conter apenas letras!')
 })
