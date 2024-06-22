@@ -2,7 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { destroyCookie, setCookie, parseCookies } from 'nookies';
 
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 
 import { api } from '@/services/apiClient';
 
@@ -40,20 +40,19 @@ type AuthProviderProps = {
 export const AuthContext = createContext({} as AuthContextData); 
 
 export function signOut(){
-  const router = useRouter();
 
   try{
     destroyCookie(undefined, '@nextauth.token')
-    router.push('/')
+    Router.push('/')
   }catch{
-    console.log('erro ao deslogar')
+    console.log('Erro ao deslogar')
   };
 };
+
 
 export function AuthProvider({ children}: AuthProviderProps){
   const [ user,  setUser ] = useState<UserProps>();
   const isAuthenticated = !!user;
-  const router = useRouter();
 
   useEffect(() => {
 
@@ -73,7 +72,7 @@ export function AuthProvider({ children}: AuthProviderProps){
         signOut();
       });
     };
-  });
+  }, []);
 
   async function signIn({email, password}: SignInProps){
     try{
@@ -102,7 +101,7 @@ export function AuthProvider({ children}: AuthProviderProps){
 
       toast.success('Logado com sucesso!')
 
-      router.push('/dashboard')
+      Router.push('/dashboard')
 
     }catch(err){
       toast.error('Erro ao acessar!')
@@ -122,7 +121,7 @@ export function AuthProvider({ children}: AuthProviderProps){
 
       toast.success('Cadastro Realizado!')
 
-      router.push('/');
+      Router.push('/');
 
     }catch(err){
       toast.success('Erro ao cadastrar!')
