@@ -21,9 +21,21 @@ import { Formik, Form } from 'formik';
 export default function Home() {
   const { signIn } = useContext(AuthContext);
 
-  async function handleLogin(values: {email: string; password: string}){
-    await signIn(values);
-  }
+  async function handleSignIn(
+    values: {
+      email: string; 
+      password: string
+    }, 
+      setSubmitting: (isSubmiting: boolean) => void
+    ) {
+      try {
+        await signIn(values);
+      } catch {
+        console.log('erro ao fazer login!!')
+      }finally {
+        setSubmitting(false);
+      }
+    };
 
   return (
     <>
@@ -37,7 +49,7 @@ export default function Home() {
           initialValues={{email: '', password: ''}}
           validationSchema={loginSchema}
           onSubmit={(values, {setSubmitting}) => {
-            handleLogin(values)
+            handleSignIn(values, setSubmitting);
             setSubmitting(true);
           }}>
           {({ isSubmitting }) =>(

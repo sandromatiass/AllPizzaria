@@ -2,6 +2,8 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { useContext } from 'react';
+
 import styles from './styles.module.scss';
 
 import imageLogo from '../../../public/LogoPizzaria.png';
@@ -12,7 +14,28 @@ import { Button } from '@/components/ui/Button';
 import { signUpSchema } from '@/schemas/validationSchema';
 import { Form, Formik } from 'formik';
 
+import { AuthContext } from '../../contexts/AuthContext';
+
 export default function SignUp() {
+
+  const { signUp } = useContext(AuthContext);
+
+  async function handleSignUp(
+    values: {
+      name: string; 
+      email: string; 
+      password: string;
+    },
+      setSubmitting: ( isSubmitting: boolean ) => void
+    ) {
+    try {
+      await signUp(values);
+    } catch (err){
+      console.log('erro na solicitação', err);
+    }finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -25,11 +48,12 @@ export default function SignUp() {
         
         <h1>Criando sua conta</h1>
 
-        <Formik  initialValues={{name: '', email: '', password: ''}}
+        <Formik  
+          initialValues={{name: '', email: '', password: ''}}
           validationSchema={signUpSchema}
           onSubmit={(values, {setSubmitting}) => {
-            setSubmitting(false);
-            console.log(values);
+            handleSignUp(values, setSubmitting);
+            setSubmitting(true);
           }}>
           {({ isSubmitting}) =>( 
             <Form>
