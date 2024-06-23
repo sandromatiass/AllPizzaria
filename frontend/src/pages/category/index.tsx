@@ -6,6 +6,9 @@ import styles from './styles.module.scss'
 import { Form, Formik, Field } from 'formik';
 import { categorySchema } from '@/schemas/validationSchema';
 
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+
 import { toast } from 'react-toastify';
 
 import { FaSpinner } from 'react-icons/fa';
@@ -58,34 +61,21 @@ export default function Category(){
             handleAddCategory(values, setSubmitting, resetForm)
             
           }}
-          className={styles.form}
           >
-            {({ isSubmitting }) =>(
-              <Form className={styles.form}>
-                <Field name='name'>
-                  {({ field, meta }: any) => (
-                    <div>
-                      <input
-                        {...field}
-                        type='text'
-                        placeholder='Digite o nome da categoria'
-                        className={`${styles.input} ${meta.touched && meta.error ? styles.error : ''}`}
-                        autoComplete='off'
-                        autoCorrect='on'
-                      />
-                      {meta.touched && meta.error ? (
-                        <div className={styles.errorMessage}>
-                          <BiSolidError />
-                          {meta.error}
-                        </div>
-                      ) : null}
-                    </div>
-                  )}
-                </Field>
-
-                <button className={styles.buttonAdd} type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? <FaSpinner className={styles.spinnerAdd}/> : 'Cadastrar'}
-                </button>
+            {({ isSubmitting}) =>( 
+            <Form  className={styles.form}>
+              <Input
+                name='name' 
+                placeholder='Digite seu Nome'
+                type='name'
+                autoComplete="off"
+              />
+              <Button
+                type="submit"
+                loading={isSubmitting}
+              >
+                Cadastrar
+              </Button>
               </Form>
             )} 
           </Formik>
