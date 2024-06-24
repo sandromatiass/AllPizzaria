@@ -2,17 +2,16 @@
   border: 0;
   border-radius: 0.5rem;
   background-color: var(--white);
-  border: 1px solid var(--grey-9E);
-  color: var(--grey-9E);
+  border: 1px solid var(--gray-9E);
+  color: var(--gray-9E);
   height: 40px;
   font-weight: 400;
   font-size: 16.5px;
   text-align: center;
-
 }
 
 .input::placeholder{
-  color: var(--grey-9E);
+  color: var(--gray-9E);
 }
 
 .input:focus{

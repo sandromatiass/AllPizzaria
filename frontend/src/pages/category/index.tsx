@@ -11,12 +11,8 @@ import { Button } from '@/components/ui/Button';
 
 import { toast } from 'react-toastify';
 
-import { FaSpinner } from 'react-icons/fa';
-import { BiSolidError } from 'react-icons/bi';
-
 import { canSSRAuth } from '@/utils/canSSRAuth';
 
-//requisição adicionando produtos ao servidor
 import { setupAPIClient } from '@/services/api';
 
 export default function Category(){
@@ -66,7 +62,7 @@ export default function Category(){
             <Form  className={styles.form}>
               <Input
                 name='name' 
-                placeholder='Digite seu Nome'
+                placeholder='Nome da categoria'
                 type='name'
                 autoComplete="off"
               />

@@ -1,0 +1,26 @@
+.select {
+  height: 40px;
+  border-radius: 0.3rem;
+  color: var(--gray-9E);
+  border: 1px solid var(--gray-9E);
+  padding: 0 0.5rem;
+  text-align: center;
+
+  option{
+    color: var(--black);
+  }
+}
+
+.error{
+  border-color: var(--red-EE);
+}
+
+.errorMessage{
+  color: var(--red-EE);
+  font-size: 12px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.5rem;
+}

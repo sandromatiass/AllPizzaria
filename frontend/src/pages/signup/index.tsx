@@ -55,7 +55,7 @@ export default function SignUp() {
             handleSignUp(values, setSubmitting);
             setSubmitting(true);
           }}>
-          {({ isSubmitting}) =>( 
+          {({ isSubmitting }) => ( 
             <Form>
               <Input
                 name='name' 
