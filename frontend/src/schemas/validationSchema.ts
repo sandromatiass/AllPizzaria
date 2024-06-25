@@ -36,7 +36,6 @@ export const categorySchema = Yup.object().shape({
   .required('O campo não pode ficar em branco.')
   .min(3, 'A categoria deve ter mais caracteres.')
   .max(50, 'A categoria deve ter menos caracteres.')
-  .matches(/^[a-zA-Z\s]+$/, 'O nome deve conter apenas letras!')
 });
 
 export const productSchema = Yup.object().shape({

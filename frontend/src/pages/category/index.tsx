@@ -29,7 +29,6 @@ export default function Category(){
       });
 
       toast.success('Categoria cadastrada!')
-      console.log(values.name)
       resetForm();
 
     }catch (err){

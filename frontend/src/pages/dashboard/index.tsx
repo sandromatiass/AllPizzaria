@@ -11,7 +11,7 @@ import { FiRefreshCcw } from 'react-icons/fi';
 
 import { setupAPIClient } from '@/services/api';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Modal from 'react-modal';
 
@@ -55,6 +55,7 @@ export default function DashBoard({ orders }: DashboardProps) {
   const [orderList, setOrderList] = useState(orders || []);
   const [modalItem, setModalItem] = useState<OrderItemProps[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   function handleCloseModal() {
     setModalVisible(false);
@@ -73,6 +74,45 @@ export default function DashBoard({ orders }: DashboardProps) {
     setModalVisible(true);
   };
 
+  async function handleFinishItem(id: string){
+    const apiClient = setupAPIClient();
+    await apiClient.put('/order/finish', {
+      order_id: id,
+    })
+
+    const response = await apiClient.get('/orders');
+
+    setOrderList(response.data);
+
+    setModalVisible(false);
+    setIsRefreshing(false);
+  };
+
+  async function handleRefreshOrders(){
+    setIsRefreshing(true); 
+    const apiClient = setupAPIClient();
+
+    try {
+      const response = await apiClient.get('/orders');
+      setOrderList(response.data);
+    } catch (error) {
+      console.error('Erro ao atualizar pedidos:', error);
+    } finally {
+        setIsRefreshing(false); 
+    }
+  }
+
+  useEffect(() => {
+    handleRefreshOrders();
+
+    const intervalId = setInterval(() => {
+      handleRefreshOrders();
+      setIsRefreshing(true);
+    }, 50000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <>
       <Head>
@@ -83,11 +123,18 @@ export default function DashBoard({ orders }: DashboardProps) {
         <main className={styles.container}>
           <div className={styles.containerHeader}>
             <h1>Últimos pedidos</h1>
-            <button>
+            <button onClick={handleRefreshOrders} disabled={isRefreshing}>
               <FiRefreshCcw size={25} color='#2C9A22' />
             </button>
           </div>
           <article className={styles.listOreders}>
+
+            {orderList.length === 0 && (
+              <span className={styles.empytList}>
+                Nenhum pedido aberto foi encontrado...
+              </span>
+            )}
+
             {orderList.map(item => (
               <section key={item.id} className={styles.orderItem}>
                 <button onClick={() => handleOpenModalView(item.id)}>
@@ -101,12 +148,13 @@ export default function DashBoard({ orders }: DashboardProps) {
 
         <ModalOrder
           isOpen={modalVisible}
-          onRequestClose={handleCloseModal}
+          onRequestClose={ handleCloseModal }
           order={modalItem}
+          handleFinishOrder={ handleFinishItem }
         />
       </div>
     </>
-  )
+  );
 };
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
@@ -116,5 +164,5 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
     props: {
       orders: response.data
     }
-  }
-})
+  };
+});

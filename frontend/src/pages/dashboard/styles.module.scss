@@ -19,6 +19,15 @@
     background-color: transparent;
     border: 0;
     margin-left: 1rem;
+
+    &[disabled]{
+      
+      cursor: not-allowed;
+    
+    svg{
+      animation: animate 2s infinite;
+    }
+  }
   }
 }
 
@@ -52,4 +61,18 @@
   height: 60px;
   border-radius: 0.3rem 0 0 0.3rem;
   margin-right: 1rem;
+}
+
+.empytList{
+  font-size: 1.2rem;
+  
+}
+
+@keyframes animate{
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
 }
