@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Formik } from 'formik';
 import { loginValidationSchema } from '../../schemas';
 import Input from '../../components/input/index';
+import { AuthContext } from '../../contexts/AuthContaxtt';
 
 export default function SignIn() {
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassWord ] = useState('');
 
-  function handleLogin(){
-    console.log(email)
+  const { signIn, loadingAuth } = useContext(AuthContext)
 
-    if(email === '' || password === ''){
-      return;
-    }
-
-  }
+  async function handleLogin(
+    values: {
+      email: string; 
+      password: string
+    }, 
+      setSubmitting: (isSubmiting: boolean) => void
+    ) {
+      try {
+        await signIn(values);
+      } catch {
+        console.log('erro ao fazer login!!')
+      }finally {
+        setSubmitting(false);
+      }
+    };
 
   return (
     <View style={styles.container}>
@@ -25,10 +33,16 @@ export default function SignIn() {
       />
       
       <Formik
-        initialValues={{ email: '', password: '' }}
-        validationSchema={loginValidationSchema}
-        onSubmit={values => console.log(values)}
-      >
+          initialValues={{email: '', password: ''}}
+          validationSchema={loginValidationSchema}
+          onSubmit={(values, {setSubmitting}) => {
+            if (!values.email || !values.password) {
+              setSubmitting(false);
+              return;
+            }
+            setSubmitting(true);
+            handleLogin(values, setSubmitting); 
+          }}>
         {({ handleSubmit }) => (
           <View style={styles.inputContainer}>
             <Input
@@ -45,7 +59,11 @@ export default function SignIn() {
             />
 
             <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
-              <Text style={styles.buttonText}>Acessar</Text>
+              { loadingAuth ? (
+                <ActivityIndicator size={25} color='#BE1010'/>
+              ) : (
+                <Text style={styles.buttonText}>Acessar</Text>
+              )}
             </TouchableOpacity>
           </View>
         )}
